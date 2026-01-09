@@ -10,6 +10,7 @@ import (
 )
 
 var testQueries *Queries
+var testDB *pgxpool.Pool
 
 const (
 	dbSource = "postgresql://root:secret@172.26.5.169:5432/simple_bank?sslmode=disable"
@@ -17,15 +18,15 @@ const (
 
 func TestMain(m *testing.M) {
 	ctx := context.Background()
-
-	conn, err := pgxpool.New(ctx, dbSource)
+	var err error
+	testDB, err = pgxpool.New(ctx, dbSource)
 	if err != nil {
 		log.Fatal("Cannot connect to db:", err)
 	}
 
-	testQueries = New(conn)
+	testQueries = New(testDB)
 
 	code := m.Run()
-	conn.Close()
+	testDB.Close()
 	os.Exit(code)
 }
