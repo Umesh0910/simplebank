@@ -13,7 +13,7 @@ var testQueries *Queries
 var testDB *pgxpool.Pool
 
 const (
-	dbSource = "postgresql://root:secret@172.26.5.169:5432/simple_bank?sslmode=disable"
+	dbSource = "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable"
 )
 
 func TestMain(m *testing.M) {
